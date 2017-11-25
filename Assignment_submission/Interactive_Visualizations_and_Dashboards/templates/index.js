@@ -1,3 +1,13 @@
+function pickHex(color1, color2, weight) {
+  var w1 = weight;
+  var w2 = 1 - w1;
+  var rgb = [Math.round(color1[0] * w1 + color2[0] * w2),
+      Math.round(color1[1] * w1 + color2[1] * w2),
+      Math.round(color1[2] * w1 + color2[2] * w2)];
+  return rgb;
+}
+
+
 // Render buttons function
 function addSampleDropdown() {
 
@@ -17,9 +27,15 @@ function addSampleDropdown() {
       .attr("value", test1[i]["name"])
       .text(test1[i]);
     }
-        
+
+    // console.log("printing here ..");
+    // console.log(test1[0]);
+    // console.log("printing here ..");
+    optionChanged(test1[0]);
+    
   }
   });
+
 
 }
 
@@ -47,11 +63,20 @@ function init() {
     }];
   
     var layout = {
-      height: 500,
+      margin: {
+        // l: 0,
+        // r: 0,
+        b: 0,
+        t: 0,
+        pad: 0
+      },
+      title: false,
+      height: 375,
       width: 500
     };
   
     Plotly.plot("pie", data, layout);
+    // Plotly.plot("pie", data, layout, {displayModeBar: false});
     // Plotly.plot("pie", data);
 
 
@@ -62,19 +87,31 @@ function init() {
       y: [10, 11, 12, 13],
       text: ['A size: 40', 'B size: 60', 'C size: 80', 'D size: 100'],
       mode: 'markers',
+      hoverinfo: 'text',
+      colorscale: 'Earth',
       marker: {
-        color: ['rgb(93, 164, 214)', 'rgb(255, 144, 14)',  'rgb(44, 160, 101)', 'rgb(255, 65, 54)'],
-        size: [40, 60, 80, 100]
+
+        // color: ['rgb(93, 164, 214)', 'rgb(255, 144, 14)',  'rgb(44, 160, 101)', 'rgb(255, 65, 54)'],
+        // size: [40, 60, 80, 100]
+        // color: ['rgb(0, 0, 51)', 'rgb(0, 51, 51)',  'rgb(0, 51, 0)', 'rgb(51, 51, 0)'],
+        // size: [40, 60, 80, 100]
       }
     };
     
     var data = [trace1];
     
     var layout = {
-      title: 'Bubble Chart Hover Text',
+      // title: 'Bubble Chart Hover Text',
+      margin: {
+        l: 0,
+        r: 200,
+        b: 0,
+        t: 0,
+        pad: 0
+      },
       showlegend: false,
-      height: 600,
-      width: 1000
+      height: 400,
+      width: 1200
     };
     
     Plotly.newPlot('myDiv', data, layout);
@@ -129,7 +166,7 @@ var data = [{ type: 'scatter',
                          'rgba(14, 127, 0, .5)', 'rgba(110, 154, 22, .5)',
                          'rgba(170, 202, 42, .5)',
                          'rgba(255, 255, 255, 0)']},
-  labels: ['151-180', '121-150', '91-120', '61-90', '31-60', '0-30', ''],
+  labels: ['8', '7', '6', '5', '4', '3', '2', '1', '0',''],
   hoverinfo: 'label',
   hole: .5,
   type: 'pie',
@@ -169,6 +206,8 @@ Plotly.newPlot('gauge1', data, layout);
     };
     
     one = [];
+    two = [];
+    three = [];
     // console.log("one");
 
     queryURL = 'http://localhost:5000/otu';
@@ -178,21 +217,62 @@ Plotly.newPlot('gauge1', data, layout);
     d3.json(queryURL, function(error, response) {
               test11 = response;
   
-              for(var i=0;i< newdata[0].otu_id.length;i++){
-                
+              // for(var i=0;i< newdata[0].otu_id.length;i++){
+                for(var i=0;i< 10;i++){
+                  
                 one.push(test11[newdata[0].otu_id[i]]);
-          
+                
               }
-                    
+              
     });
-  
+
+    d3.json(queryURL, function(error, response) {
+      test11 = response;
+      console.log(newdata[0].otu_id.length);
+      
+      for(var i=0;i< newdata[0].otu_id.length;i++){
+          
+        two.push("("+newdata[0].otu_id[i]+","+newdata[0].sample_values[i]+")"+"<br>"+test11[newdata[0].otu_id[i]]);          
+     
+        color1 = pickHex([0,0,51], [51,0,0], ((i)/newdata[0].otu_id.length));
+        color2 = 'rgb(' + color1[0] +', '+color1[1] +', '+color1[2] +')'; 
+        three.push(color2);
+     
+      }
+
+      four = ['rgb(93, 164, 214)', 'rgb(255, 144, 14)',  'rgb(44, 160, 101)', 'rgb(255, 65, 54)'];
+      Plotly.restyle("myDiv", "text", [two]);
+     
+      // Plotly.restyle("myDiv", "marker.color", [four]);
+      // Plotly.restyle("myDiv", "marker.color", [four]);
+      
+      console.log("color11111");
+      console.log(three);
+      console.log(four);
+      console.log("color11111");
+    
+});
+
+    // for(var i=0;i< 10;i++){
+      
+    //   console.log([one[i]]);
+    //   console.log("two..." + two[i]);
+    // }
     console.log("updatePlotly");
+    console.log("new one..");
+    console.log([newdata[0].otu_id][0].slice(0,10));
+    console.log("new one..");
     // console.log(data1[0].otu_id);
     // Plotly.plot("pie", newdata, layout);
     // Plotly.restyle(LINE, "data", [newdata]);
-    Plotly.restyle(LINE, "values", [newdata[0].sample_values]);
-    Plotly.restyle(LINE, "labels", [newdata[0].otu_id]);
+
+    // Plotly.restyle(LINE, "values", [newdata[0].sample_values]);
+    // Plotly.restyle(LINE, "labels", [newdata[0].otu_id]);
+
+    Plotly.restyle(LINE, "values", [[newdata[0].sample_values][0].slice(0,10)]);
+    Plotly.restyle(LINE, "labels", [[newdata[0].otu_id][0].slice(0,10)]);
     Plotly.restyle(LINE, "text", [one]);
+
     // Plotly.relayout("pie", newdata, layout);
 
     
@@ -200,9 +280,11 @@ Plotly.newPlot('gauge1', data, layout);
     Plotly.restyle("myDiv", "x", [newdata[0].otu_id]);
     Plotly.restyle("myDiv", "y", [newdata[0].sample_values]);
     Plotly.restyle("myDiv", "marker.size", [newdata[0].sample_values]);
-    Plotly.restyle("myDiv", "marker.color", [newdata[0].otu_id]);
+    Plotly.restyle("myDiv", "colorscale", 'Earth');
+    // Plotly.restyle("myDiv", "marker.color", [newdata[0].otu_id]);
+
     // Plotly.restyle("myDiv", "text", [["AA","BB","CC","DD"]]);
-    Plotly.restyle("myDiv", "text", [[one]]);
+    // Plotly.restyle("myDiv", "text", [two]);
 
     console.log("-------$$$$");
     console.log(newdata[1]);
@@ -237,8 +319,9 @@ var data = [{ type: 'scatter',
 x: [0], y:[0],
  marker: {size: 28, color:'850000'},
  showlegend: false,
- name: 'speed',
- text: level,
+ name: 'scrubs/week',
+ text: var12345,
+//  text: level,
  hoverinfo: 'text+name'},
 { values: [50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50],
 rotation: 90,
@@ -252,7 +335,8 @@ marker: {colors:['rgba(14, 127, 0, .5)', 'rgba(110, 154, 22, .5)',
                       'rgba(14, 127, 0, .5)', 'rgba(110, 154, 22, .5)',
                       'rgba(170, 202, 42, .5)',
                       'rgba(255, 255, 255, 0)']},
-labels: ['151-180', '121-150', '91-120', '61-90', '31-60', '0-30', ''],
+labels: ['9','8', '7', '6', '5', '4', '3', '2', '1', '0'],
+// labels: 'text',
 hoverinfo: 'label',
 hole: .5,
 type: 'pie',
@@ -269,7 +353,7 @@ shapes:[{
    }
  }],
 title: '<b>Belly Button Washing Frequency</b> <br> Scrubs per Week',
-height: 600,
+height: 450,
 width: 400,
 xaxis: {zeroline:false, showticklabels:false,
           showgrid: false, range: [-1, 1]},
@@ -312,6 +396,11 @@ Plotly.newPlot('gauge1', data, layout);
         }
         else{
       data1 = response;
+
+      
+      console.log("this one....");
+      console.log(data1[0].otu_id);
+      console.log("this one....");
       console.log(data1[0].otu_id);
       console.log(data1[0].sample_values);
 

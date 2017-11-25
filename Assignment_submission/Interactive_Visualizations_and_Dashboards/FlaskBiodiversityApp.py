@@ -2,6 +2,7 @@ import json
 import datetime as dt
 import numpy as np
 import pandas as pd
+import pymongo
 import pprint
 
 
@@ -33,9 +34,55 @@ Samples = Base.classes.samples
 SamplesMetadata = Base.classes.samples_metadata
 session = Session(engine)
 
+
 #################################################
 # Flask Routes
 #################################################
+
+#################################################
+# Flask Routes
+#################################################
+
+# #Default Route#
+# @app.route("/")
+# def welcome():
+#     conn = "mongodb://test:test@ds243335.mlab.com:43335/heroku_smxwwn9d"
+#     client = pymongo.MongoClient(conn)
+
+#     db = client.heroku_smxwwn9d
+#     mars_collection = db.mars_collection
+
+#     for record in db.mars_collection.find().sort('time', 1):
+#         last_record = record
+
+#     title_list, url_list = [], []
+
+#     for k,v in last_record.items():
+#         if(k == '_id'):
+#             pass
+#         else:
+#             if(k == 'df_mars'):
+#                 mars_facts = pd.read_json(v).to_html()
+#             if(k == 'hemisphere_image_urls'):
+#                 for x in v:
+#                     title_list.append(x['title'])
+#                     url_list.append(x['img_url'])
+
+#     return render_template("index.html", results=last_record, results2=mars_facts, results3=title_list, results4=url_list)
+
+# #Route for Scraping latest data#
+# @app.route("/scrape")
+# def scrape1():
+#     conn = "mongodb://test:test@ds243335.mlab.com:43335/heroku_smxwwn9d"
+#     client = pymongo.MongoClient(conn)
+
+#     db = client.heroku_smxwwn9d
+#     mars_collection = db.mars_collection
+
+#     res1 = md.scrape()
+#     mars_collection.insert_one(res1)
+
+#     return redirect("http://localhost:5000/", code=302)
 
 
 @app.route("/")
@@ -58,7 +105,10 @@ def names():
     samples_cols_list = Base.classes.samples.__table__.columns.keys()
     sample_list = samples_cols_list[1:]
     return jsonify(samples_cols_list[1:])
-    
+    # return render_template("index.html", sample_list = samples_cols_list[1:])
+    # return json.dumps(sample_list)
+    # return sample_list
+
 @app.route("/otu", methods=['POST','GET'])
 def otu():
 
@@ -77,7 +127,17 @@ def metadata(sample):
             dict1[k] = v
 
     return jsonify(dict1)
-   
+    # return dict1
+    # tbl1 = pd.DataFrame(dict1, index=[0])
+    # tbl1 = pd.DataFrame.from_dict(dict1, orient='index')
+    # return tbl1.to_html()
+    # return render_template("index.html", sample_mt = dict1)
+
+    # sample_list_v = names()
+    # print(sample_list_v)
+    # return render_template("index.html", sample_list = sample_list_v, sample_mt = dict1)
+    
+
 @app.route('/wfreq/<sample>', methods=['POST','GET'])
 def wfreq(sample):
 
@@ -88,13 +148,15 @@ def wfreq(sample):
 @app.route('/samples/<sample>', methods=['POST','GET'])
 def samples(sample):
 
-    results = session.query(Samples.otu_id,getattr(Samples, sample)).order_by(getattr(Samples, sample).desc()).limit(10).all()
+    # results = session.query(Samples.otu_id,getattr(Samples, sample)).order_by(getattr(Samples, sample).desc()).limit(10).all()
+    results = session.query(Samples.otu_id,getattr(Samples, sample)).order_by(getattr(Samples, sample).desc()).all()
     results
     dict1, dict2 = {}, {}
     list1, list2, list3 = [], [], []
     for x in results:
-        list1.append(x[0])
-        list2.append(x[1])
+        if(x[1] > 0):
+            list1.append(x[0])
+            list2.append(x[1])
     dict1['otu_id'] = list1
     dict1['sample_values'] = list2
     list3.append(dict1)

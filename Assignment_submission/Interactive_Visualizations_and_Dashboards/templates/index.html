@@ -2,103 +2,111 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Biodiversity</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Biodiversity</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 </head>
 
 <body>
-    <div class="container">
+  <div class="container">
 
-        <div class="jumbotron text-center">
-            <h1>
-                <strong>Belly Button Biodiversity Dashboard</strong>
-            </h1>
-            <p>Use the interactive charts below to explore the dataset
-                <!-- <a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a> -->
-            </p>
-        </div>
+    <div class="jumbotron text-center">
+      <h1>
+        <strong>Belly Button Biodiversity Dashboard</strong>
+      </h1>
+      <p>Use the interactive charts below to explore the dataset
+        <!-- <a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a> -->
+      </p>
+    </div>
 
-        <div class="jumbotron">
-            <div class="container" style="width:1100px">
-                <!-- <form action="/names" method="post">
+    <!-- <div class="jumbotron"> -->
+    <div class="container" style="width:1100px">
+      <!-- <form action="/names" method="post">
             <button name="forwardBtn" type="submit">Forward</button>
         </form> -->
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="row">
-                            <p>SELECT Sample:</p>
-                            <select id="selDataset" onchange="optionChanged(this.value)">
-                <!-- <option value="dataset1">DataSet1</option>
-                <option value="dataset2">DataSet2</option>
-                <option value="dataset3">DataSet3</option> -->
-              </select>
+      <div class="row">
+        <div class="col-md-2">
+          <div class="row">
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <b>SELECT Sample:</b>
+                  </div>
+                  <div class="panel-body">
+                      <select id="selDataset" onchange="optionChanged(this.value)">
+                        </select>
+                  </div>
+                </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <b>Sample Metadata</b>
+              </div>
+              <div class="panel-body" id="table1" style="font-size:10px"></div>
+            </div>
+            <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis ipsum totam numquam possimus illum. Totam, nisi? Iusto inventore omnis repellendus, quidem adipisci, illo voluptatum animi ullam vero enim numquam molestiae?</p> -->
 
-                        </div>
-                        <br>
-                        <div class="row" id="table1">
-                            <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis ipsum totam numquam possimus illum. Totam, nisi? Iusto inventore omnis repellendus, quidem adipisci, illo voluptatum animi ullam vero enim numquam molestiae?</p> -->
+            <!-- <p>{{sample_list}}</p> -->
+            <!-- <p>{{sample_mt}}</p> -->
+          </div>
+        </div>
+        <div class="col-md-6" id="pie">
 
-                            <!-- <p>{{sample_list}}</p> -->
-                            <!-- <p>{{sample_mt}}</p> -->
-                        </div>
-                    </div>
-                    <div class="col-md-6" id="pie">
-
-                        <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio enim vitae aspernatur, magnam accusamus porro
+          <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio enim vitae aspernatur, magnam accusamus porro
               quae totam praesentium! Architecto cum quisquam deserunt ipsam. Commodi ex perspiciatis explicabo veritatis
               hic itaque.</p> -->
 
-                    </div>
-                    <div class="col-md-4" id="gauge1">
+        </div>
+        <div class="col-md-4" id="gauge1">
 
-                        <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et eius eum nisi, nulla, quisquam explicabo quas laboriosam,
+          <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et eius eum nisi, nulla, quisquam explicabo quas laboriosam,
               nesciunt quia similique aliquid perferendis. Ullam esse laboriosam veritatis maiores dolorem repellat provident?</p> -->
 
-                    </div>
-
-                </div>
-                <div class="row">
-
-                </div>
-            </div>
         </div>
-        <div class="jumbotron">
-            <div class="container" style="width:1000px">
-                <div class="col-md-12" id="myDiv">
-                    <!-- <h2 style="text-align:center;">
+
+      </div>
+      <!-- <div class="row">
+
+      </div> -->
+    </div>
+    <!-- </div> -->
+    <!-- <div class="jumbotron"> -->
+      <div class="container" style="width:1000px">
+        <div class="col-md-12" id="myDiv">
+          <!-- <h2 style="text-align:center;">
               <strong>Mars Hemispheres</strong>
             </h2> -->
-                    <hr>
-                </div>
-            </div>
-            <div class="row">
-            </div>
-            <div class="row">
-
-            </div>
+          <!-- <hr> -->
         </div>
-    </div>
+      </div>
+      <!-- <div class="row">
+      </div>
+      <div class="row">
 
-    </div>
+      </div> -->
+    <!-- </div> -->
+  </div>
 
-    <!-- <div id="pie"></div> -->
+  </div>
 
-    <!-- <script src="plots.js"></script> -->
+  <!-- <div id="pie"></div> -->
 
-    <!-- <select id="selDataset" onchange="getData(this.value)">
+  <!-- <script src="plots.js"></script> -->
+
+  <!-- <select id="selDataset" onchange="getData(this.value)">
           <option value="BB_940">BB_940</option>
           <option value="BB_941">BB_941</option>
           <option value="BB_942">BB_942</option>
         </select> -->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.3/d3.min.js"></script>
-    <script src="data.js"></script>
-    <script type="text/javascript" src="index.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.3/d3.min.js"></script>
+  <script src="data.js"></script>
+  <script type="text/javascript" src="index.js"></script>
 </body>
 
 </html>
