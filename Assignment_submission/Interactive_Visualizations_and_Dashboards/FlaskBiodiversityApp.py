@@ -1,14 +1,5 @@
-import json
-import datetime as dt
-import numpy as np
-import pandas as pd
-import pymongo
-import pprint
-
 
 from flask import Flask, render_template, jsonify, redirect
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
 
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
